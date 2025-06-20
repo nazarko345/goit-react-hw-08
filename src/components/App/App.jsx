@@ -1,31 +1,56 @@
-import css from "./App.module.css";
-import ContactForm from "../ContactForm/ContactForm.jsx";
-import SearchBox from "../SearchBox/SearchBox.jsx";
-import ContactList from "../ContactList/ContactList.jsx";
-import {fetchContacts} from "../../redux/contactsOps.js";
+import { lazy, Suspense, useEffect } from "react";
+import AppBar from "../AppBar/AppBar";
+import { Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { selectError, selectLoading } from "../../redux/contactsSlice.js";
+import { refreshUser } from "../../redux/auth/operations.js";
+import { selectIsRefreshing } from "../../redux/auth/selectors.js";
+import PublicRoute from "../PublicRoute/PublicRoute.jsx";
+import PrivateRoute from "../PrivateRoute/PrivateRoute.jsx";
+import Loader from "../Loader/Loader.jsx";
 
+const HomePage = lazy(() => import("../../pages/HomePage/HomePage.jsx"));
+const RegisterPage = lazy(() =>
+  import("../../pages/RegistartionPage/RegistartionPage.jsx")
+);
+const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage.jsx"));
+const ContactsPage = lazy(() =>
+  import("../../pages/ContactsPage/ContactsPage.jsx")
+);
 
 export default function App() {
   const dispatch = useDispatch();
-
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  const IsRefreshed = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
   return (
-    <div className={css.app}>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      {loading && <p>Loading...</p>}
-      {error && <Error/>}
-      <ContactList />
-    </div>
+    !IsRefreshed && (
+      <div>
+        <AppBar />
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute redirectTo="/" component={<RegisterPage />} />
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute redirectTo="/contacts" component={<LoginPage />} />
+              }
+            />
+            <Route
+              path="/contacts"
+              element={<PrivateRoute component={<ContactsPage />} />}
+            />
+          </Routes>
+        </Suspense>
+      </div>
+    )
   );
 }
