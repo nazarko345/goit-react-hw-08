@@ -1,7 +1,7 @@
-import css from "./NotFoundPage.module.css";
+import css from "./Error.module.css";
 import { MdErrorOutline } from "react-icons/md";
 
-export default function NotFoundPage() {
+export default function Error() {
   return (
     <div className={css.container}>
       <MdErrorOutline className={css.icon} />
