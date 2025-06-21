@@ -19,7 +19,7 @@ export default function Contact({ contacts }) {
       </span>
       <span className={css.span}>
         <BsFillTelephoneFill />
-        {contacts.tel}
+        {contacts.number}
       </span>
       <button onClick={handleClick} className={css.deleteBtn}>
         Delete

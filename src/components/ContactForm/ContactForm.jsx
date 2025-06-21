@@ -6,7 +6,7 @@ import { addContact } from "../../redux/contacts/operations";
 
 const defaultValues = {
   name: "",
-  tel: "",
+  number: "",
 };
 
 const ContactsSchema = Yup.object().shape({
@@ -14,7 +14,7 @@ const ContactsSchema = Yup.object().shape({
     .min(3, "It's too short")
     .max(30, "It's too long!")
     .required("Required"),
-  tel: Yup.string()
+  number: Yup.string()
     .min(3, "It's too short")
     .max(30, "It's too long!")
     .required("Required"),
@@ -27,7 +27,7 @@ export default function ContactForm() {
     dispatch(
       addContact({
         name: values.name,
-        tel: values.tel,
+        number: values.number,
       })
     );
     actions.resetForm();
@@ -50,10 +50,10 @@ export default function ContactForm() {
         <Field
           className={css.tel}
           type="tel"
-          name="tel"
+          name="number"
           placeholder="phone number"
         />
-        <ErrorMessage className={css.error} name="tel" component="span" />
+        <ErrorMessage className={css.error} name="number" component="span" />
 
         <button type="submit" className={css.addBtn}>
           Add contact
