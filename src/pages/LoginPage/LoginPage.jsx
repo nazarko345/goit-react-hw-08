@@ -1,3 +1,3 @@
-export default function AppBar() {
+export default function LoginPage() {
   return <LoginForm />;
 }

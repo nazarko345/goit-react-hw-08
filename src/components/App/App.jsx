@@ -1,12 +1,12 @@
 import { lazy, Suspense, useEffect } from "react";
-import AppBar from "../AppBar/AppBar";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshUser } from "../../redux/auth/operations.js";
 import { selectIsRefreshing } from "../../redux/auth/selectors.js";
-import PublicRoute from "../PublicRoute/PublicRoute.jsx";
+import RestrictedRoute from "../RestrictedRoute/RestrictedRoute.jsx";
 import PrivateRoute from "../PrivateRoute/PrivateRoute.jsx";
 import Loader from "../Loader/Loader.jsx";
+import Layout from "../Layout/Layout.jsx";
 
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage.jsx"));
 const RegisterPage = lazy(() =>
@@ -28,20 +28,23 @@ export default function App() {
   return (
     !IsRefreshed && (
       <div>
-        <AppBar />
+        <Layout>
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route
               path="/register"
               element={
-                <PublicRoute redirectTo="/" component={<RegisterPage />} />
+                <RestrictedRoute redirectTo="/" component={<RegisterPage />} />
               }
             />
             <Route
               path="/login"
               element={
-                <PublicRoute redirectTo="/contacts" component={<LoginPage />} />
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<LoginPage />}
+                />
               }
             />
             <Route
@@ -50,6 +53,7 @@ export default function App() {
             />
           </Routes>
         </Suspense>
+        </Layout>
       </div>
     )
   );
