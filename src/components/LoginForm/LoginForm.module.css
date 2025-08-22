@@ -18,6 +18,8 @@
   border-radius: 12px;
   outline: none;
   transition: border-color 0.3s ease;
+  background-color: transparent;
+  color: black;
 }
 
 .input:focus {
@@ -38,6 +40,17 @@
 
 .button:hover {
   background-color: #6d28d9;
+}
+
+.error {
+  color: #e63946;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  
+  background: rgba(230, 57, 70, 0.08); 
+  padding: 4px 8px;
+  border-radius: 6px;
 }
 
 @keyframes fadeIn {

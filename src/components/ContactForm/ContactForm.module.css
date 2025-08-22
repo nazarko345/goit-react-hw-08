@@ -24,7 +24,7 @@
 }
 
 .name:focus,
- .tel:focus {
+.tel:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
@@ -47,7 +47,7 @@
 }
 
 .error {
-  color: #e11d48; /* насичений червоний */
+  color: #e11d48;
   font-size: 0.85rem;
   margin-top: -8px;
   margin-bottom: 4px;
